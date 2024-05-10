@@ -3,7 +3,8 @@
 #Using Object Oriented Programming
 
 from tkinter import *
-from tkinter import ttk
+import tkinter as tk
+from tkinter import Tk
 from tkinter import messagebox
 from tkinter.ttk import *
 from PIL import Image , ImageTk
@@ -15,30 +16,34 @@ class Login_page(Tk) :
         super().__init__()
         self.title('Page 1(Login)')
         self.geometry('360x640')
-        self.config(bg='cyan')
-        img = Image.open('Profile.jpeg').resize((100,100))
-        self.photo = ImageTk.PhotoImage(image=img)
-       
+        self.config(bg='white')
+        title_img = Image.open('Bank image.jpg').resize((200,200))
+        self.photo = ImageTk.PhotoImage(image=title_img)
+        self.frame = tk.Frame(self, width=300, height=300, background='white' )
         self.widgets()
         self.structure()
 
     def widgets(self) :   
         #Creating the widgets in the page
-        self.profile_label = Label(self, image=self.photo, border=None, background='cyan')
-        self.instructions_label = Label(self, text='Enter your details in the provided fields below' ,foreground='purple', background='cyan', font=('Times ', '10'))
-        self.account_number = ttk.Entry(self, width=40 )
-        self.password = ttk.Entry(self, width=40, )
         
-        self.login_button = Button(self, text='LOGIN', command=self.login)
+        self.profile_label = Label(self, image=self.photo, background='white' , border=None)
+        self.instructions_label = Label(self.frame, text='Enter your details in the provided fields below :' ,foreground='grey', background='white', font=('Times', '10'))
+        self.welcome_label = Label(self.frame, text='WELCOME TO 254 ONLINE BANKING' ,foreground='green', background='white', font=('Canvas bold', '13'))
+        self.account_number = Entry(self.frame ,width=40)
+        self.password = Entry(self.frame, width=40 )
+        
+        self.login_button = Button(self.frame, text='LOGIN' , command=self.login)
         self.in_entry_words()
         
     def structure(self) :
         #Positioning the page contents
-        self.profile_label.place(x=130, y=20)
-        self.instructions_label.place(x=20, y=150)
-        self.account_number.place(x=50, y=200)
-        self.password.place(x=50, y=250)
-        self.login_button.place(x=130, y=300)
+        self.frame.place(x=30, y=230)
+        self.profile_label.place(x=70, y=20)
+        self.welcome_label.place(x=5, y=10)
+        self.instructions_label.place(x=20, y=50)
+        self.account_number.place(x=30, y=90)
+        self.password.place(x=30, y=150)
+        self.login_button.place(x=100, y=220)
     
     #Function to insert More information in the entry widgets
     def in_entry_words(self, *args) :
@@ -55,15 +60,18 @@ class Login_page(Tk) :
         self.password.delete(0, 'end')
         self.bind()
         
-    #Functions to add the contents again when the widgets unclicked
+    #Functions to add the contents again when the entry widgets are unclicked
+    #Added a condition where the contents are not added if there is user input
     def leave(self, *args) :
-        self.account_number.insert(0,'Account Number')
-        #self.focus()
+        number = self.account_number.get()
+        if number == '' :
+            self.account_number.insert(0,'Account Number')
         self.bind()
 
     def leave2(self, *args) :
-        self.password.insert(0,'Password')
-        #self.focus()
+        password = self.password.get()
+        if password == '' :
+            self.password.insert(0,'Password')
         self.bind()    
     
     #Function to bind the click actions to perfom the FocusIn FocusOut    
